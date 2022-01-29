@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 const ReactForm = () => {
+  const [gifData, setGifData] = useState([]);
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -19,16 +20,36 @@ const ReactForm = () => {
     passwordRef.current.value = "";
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     // log your value here
+    console.log(e.target.value, "handleSearch");
+    let searchVal = e.target.value;
+    if (searchVal) {
+      let jsonRes = await fetch(
+        "https://api.giphy.com/v1/gifs/search?api_key=3JrYNmDRfYwZj1fsiTiMN6aD1t7NHjnp&q=apple"
+      );
+      let res = await jsonRes.json();
+      console.log(res.data);
+      setGifData(res.data);
+    } else {
+      setGifData([]);
+    }
   };
   const focusInput = (inputRef) => {
     inputRef.current.focus();
   };
   const debounce = (callback, delay) => {
     // add your debounce logic here
+    let timelimit;
+    return (...args) => {
+      clearTimeout(timelimit);
+      timelimit = setTimeout(() => {
+        console.log("Search API triggered");
+        callback.apply(this, args);
+      }, delay);
+    };
   };
-  const debouncedSearch = debounce(handleSearch, 1000);
+  const debouncedSearch = debounce(handleSearch, 2000);
   return (
     <React.Fragment>
       <div>
@@ -85,6 +106,13 @@ const ReactForm = () => {
             onChange={debouncedSearch}
           />
         </label>
+        <div className="gif_container">
+          {gifData.map((gifObj) => (
+            <div key={gifObj.id}>
+              <img src={gifObj.embed_url} alt="gif_img" />
+            </div>
+          ))}
+        </div>
       </div>
     </React.Fragment>
   );
