@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-
+import "./Form.css";
 const ReactForm = () => {
   const [gifData, setGifData] = useState([]);
   const nameRef = useRef(null);
@@ -22,15 +22,14 @@ const ReactForm = () => {
 
   const handleSearch = async (e) => {
     // log your value here
-    console.log(e.target.value, "handleSearch");
     let searchVal = e.target.value;
     if (searchVal) {
       let jsonRes = await fetch(
-        "https://api.giphy.com/v1/gifs/search?api_key=3JrYNmDRfYwZj1fsiTiMN6aD1t7NHjnp&q=apple"
+        `https://api.giphy.com/v1/gifs/search?api_key=3JrYNmDRfYwZj1fsiTiMN6aD1t7NHjnp&q=${searchVal}`
       );
       let res = await jsonRes.json();
       console.log(res.data);
-      setGifData(res.data);
+      setGifData(res.data.slice(0, 16));
     } else {
       setGifData([]);
     }
@@ -107,11 +106,15 @@ const ReactForm = () => {
           />
         </label>
         <div className="gif_container">
-          {gifData.map((gifObj) => (
-            <div key={gifObj.id}>
-              <img src={gifObj.embed_url} alt="gif_img" />
-            </div>
-          ))}
+          {gifData.length ? (
+            gifData.map((gifObj) => (
+              <div key={gifObj.id}>
+                <img src={gifObj.images.fixed_height.url} alt="gif_img" />
+              </div>
+            ))
+          ) : (
+            <label className="search_label">Type something to search</label>
+          )}
         </div>
       </div>
     </React.Fragment>
