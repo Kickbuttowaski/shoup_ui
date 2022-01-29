@@ -28,7 +28,7 @@ const ReactForm = () => {
         `https://api.giphy.com/v1/gifs/search?api_key=3JrYNmDRfYwZj1fsiTiMN6aD1t7NHjnp&q=${searchVal}`
       );
       let res = await jsonRes.json();
-      console.log(res.data);
+      //console.log(res.data);
       setGifData(res.data.slice(0, 16));
     } else {
       setGifData([]);
