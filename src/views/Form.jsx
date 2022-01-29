@@ -1,14 +1,30 @@
-import React from "react";
+import React, { useRef } from "react";
 
 const ReactForm = () => {
-  const handleSubmit = (e) => {};
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const formRef = useRef(null);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(`Name : ${nameRef.current.value}`);
+    console.log(`Email : ${emailRef.current.value}`);
+    console.log(`Password : ${passwordRef.current.value}`);
+  };
 
-  const handleReset = () => {};
+  const handleReset = (e) => {
+    e.preventDefault();
+    nameRef.current.value = "";
+    emailRef.current.value = "";
+    passwordRef.current.value = "";
+  };
 
   const handleSearch = (e) => {
     // log your value here
   };
-
+  const focusInput = (inputRef) => {
+    inputRef.current.focus();
+  };
   const debounce = (callback, delay) => {
     // add your debounce logic here
   };
@@ -19,24 +35,44 @@ const ReactForm = () => {
         <p>part 1</p>
         <label>
           Name:
-          <input placeholder="name" type="text" />
+          <input ref={nameRef} placeholder="name" type="text" />
         </label>
         <label>
           Email:
-          <input placeholder="email" type="text" />
+          <input ref={emailRef} placeholder="email" type="text" />
         </label>
 
         <label>
           Password:
-          <input placeholder="password" type="text" />
+          <input ref={passwordRef} placeholder="password" type="password" />
         </label>
         <hr />
-        <button>Focus Name Input</button>
-        <button>Focus Email Input</button>
-        <button>Focus Password Input</button>
+        <button
+          onClick={() => {
+            focusInput(nameRef);
+          }}
+        >
+          Focus Name Input
+        </button>
+        <button
+          onClick={() => {
+            focusInput(emailRef);
+          }}
+        >
+          Focus Email Input
+        </button>
+        <button
+          onClick={() => {
+            focusInput(passwordRef);
+          }}
+        >
+          Focus Password Input
+        </button>
         <hr />
-        <button>Submit</button>
-        <button>Reset</button>
+        <button type="submit" onClick={handleSubmit}>
+          Submit
+        </button>
+        <button onClick={handleReset}>Reset</button>
       </div>
       <div>
         <hr />
