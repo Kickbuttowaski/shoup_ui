@@ -51,7 +51,7 @@ const ReactForm = () => {
   const debouncedSearch = debounce(handleSearch, 2000);
   return (
     <React.Fragment>
-      <div>
+      <div className="shopup_formwrapper">
         <p>part 1</p>
         <label>
           Name:
@@ -94,7 +94,7 @@ const ReactForm = () => {
         </button>
         <button onClick={handleReset}>Reset</button>
       </div>
-      <div>
+      <div style={{ textAlign: "left" }}>
         <hr />
         <p>part 2</p>
         <label>

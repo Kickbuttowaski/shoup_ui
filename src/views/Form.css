@@ -18,3 +18,9 @@
   width: 100%;
   opacity: 0.5;
 }
+.shopup_formwrapper {
+  text-align: left;
+}
+.shopup_formwrapper label {
+  display: block;
+}
